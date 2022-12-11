@@ -3,6 +3,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
+from PIL import Image as img
 
 navBar = option_menu(
 
@@ -19,9 +20,12 @@ def get_Data(filename):
         data = pd.read_csv(filename)
         return data
 
+
 def Homepage():
 
     st.title("Business System: ")
+    logo = img.open('pynet_logo_complete.png')
+    st.image(logo)
 
 def Database():
 
@@ -258,6 +262,7 @@ def Purchase():
 
         col1, col2, col3 = st.columns(3)
 
+        # Customer | purchase page
         with col1:
 
             st.subheader("Customer Info.")
@@ -302,6 +307,7 @@ def Purchase():
 
             get_Customer_Data()
 
+        # Product | purchase page
         with col2:
 
             st.subheader("Product Info.")
@@ -357,9 +363,7 @@ def Purchase():
                         global total_Price
                         total_Price = int(current_Price * amount)
                         st.text(f"Total: {total_Price}")
-                        global tp
-                        tp = True
-
+    
                     calculate_Price()
 
                 else:
@@ -367,6 +371,7 @@ def Purchase():
 
             get_Product_Data()
 
+        # Payment | purchase page
         with col3:
 
             st.subheader("Payment Info.")
@@ -401,7 +406,7 @@ def Purchase():
 
                     get_Percentage()
 
-                    def calculate_Discount():
+                    def show_Discount_Price():
 
                         sub = int((current_Percentage * total_Price)/ 100)
 
@@ -411,7 +416,7 @@ def Purchase():
                         st.text(f"Discount: {current_Percentage}: {sub}")
                         st.text(f"Discount price: {discount_Price}")
 
-                    calculate_Discount()            
+                    show_Discount_Price()            
 
             get_Discount_Data()
 
