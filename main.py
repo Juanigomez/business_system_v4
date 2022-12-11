@@ -24,7 +24,7 @@ def get_Data(filename):
 def Homepage():
 
     st.title("Business System: ")
-    logo = img.open('logo_images/pynet_logo_complete.png')
+    logo = img.open('pynet_logo_complete.png')
     st.image(logo)
 
 def Database():
