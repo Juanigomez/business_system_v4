@@ -17,9 +17,21 @@ navBar = option_menu(
 )
 
 def get_Data(filename):
-        data = pd.read_csv(filename)
-        return data
+    data = pd.read_csv(filename)
+    return data
 
+def get_Index(value, all_Values):
+
+    index = 0
+    count = int(len(all_Values) - 1)
+
+    if value != all_Values[index]:
+        for n in all_Values:
+            while value != all_Values[index]:
+                if index == count:
+                    break
+                else:
+                    index += 1
 
 def Homepage():
 
@@ -56,16 +68,7 @@ def Database():
 
                     customers_Dataset = get_Data('customers.csv')
                     all_Customers = list(customers_Dataset.iloc[:,0])
-                    index = 0
-                    count = int(len(all_Customers) - 1)
-                    
-                    if Name != all_Customers[index]:
-                        for clients in all_Customers:
-                            while Name != all_Customers[index]:
-                                if index == count:
-                                    break
-                                else:
-                                    index += 1
+                    index = get_Index(Name, all_Customers)
 
                     if Name == all_Customers[index]:
 
@@ -127,16 +130,7 @@ def Database():
 
                     products_Dataset = get_Data('products.csv')
                     all_Products = list(products_Dataset.iloc[:,0])
-                    index = 0
-                    count = int(len(all_Products) - 1)
-                    
-                    if Name != all_Products[index]:
-                        for clients in all_Products:
-                            while Name != all_Products[index]:
-                                if index == count:
-                                    break
-                                else:
-                                    index += 1
+                    index = get_Index(Name, all_Products)
 
                     if Name == all_Products[index]:
                         current_Product = Name
@@ -197,16 +191,7 @@ def Database():
 
                     discounts_Dataset = pd.read_csv('discounts.csv')
                     all_Discounts = list(discounts_Dataset.iloc[:,0])
-                    index = 0
-                    count = int(len(all_Discounts) - 1)
-                    
-                    if Name != all_Discounts[index]:
-                        for discount in all_Discounts:
-                            while Name != all_Discounts[index]:
-                                if index == count:
-                                    break
-                                else:
-                                    index += 1
+                    index = get_Index(Name, all_Discounts)
 
                     if Name == all_Discounts[index]:
 
@@ -260,10 +245,9 @@ def Purchase():
 
     with columns:
 
-        col1, col2, col3 = st.columns(3)
+        customer_Col1, product_Col2, payment_Col3 = st.columns(3)
 
-        # Customer | purchase page
-        with col1:
+        with customer_Col1:
 
             st.subheader("Customer Info.")
             current_Customer = str(st.text_input("Enter customer name: "))
@@ -307,8 +291,7 @@ def Purchase():
 
             get_Customer_Data()
 
-        # Product | purchase page
-        with col2:
+        with product_Col2:
 
             st.subheader("Product Info.")
             current_Product = st.text_input("Enter product name: ")
@@ -371,8 +354,7 @@ def Purchase():
 
             get_Product_Data()
 
-        # Payment | purchase page
-        with col3:
+        with payment_Col3:
 
             st.subheader("Payment Info.")
 
