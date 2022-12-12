@@ -33,6 +33,8 @@ def get_Index(value, all_Values):
                 else:
                     index += 1
 
+    return index
+
 def Homepage():
 
     st.title("Business System: ")
@@ -256,16 +258,7 @@ def Purchase():
 
                 customers_Dataset = pd.read_csv('customers.csv')
                 all_Customers = list(customers_Dataset.iloc[:,0])
-                index = 0
-                count = int(len(all_Customers) - 1)
-                
-                if current_Customer != all_Customers[index]:
-                    for clients in all_Customers:
-                        while current_Customer != all_Customers[index]:
-                            if index == count:
-                                break
-                            else:
-                                index += 1
+                index = get_Index(current_Customer, all_Customers)
 
                 if current_Customer == all_Customers[index]:
 
@@ -301,16 +294,7 @@ def Purchase():
 
                 products_Dataset = pd.read_csv('products.csv')
                 all_Products = list(products_Dataset.iloc[:,0])
-                index = 0
-                count = int(len(all_Products) - 1)
-                
-                if current_Product != all_Products[index]:
-                    for clients in all_Products:
-                        while current_Product != all_Products[index]:
-                            if index == count:
-                                break
-                            else:
-                                index += 1
+                index = get_Index(current_Product, all_Products)
 
                 if current_Product == all_Products[index]:
 
@@ -367,16 +351,7 @@ def Purchase():
 
             def get_Discount_Data():
 
-                index = 0
-                count = int(len(all_Discounts) - 1)
-                
-                if current_Discount != all_Discounts[index]:
-                    for discount in all_Discounts:
-                        while current_Discount != all_Discounts[index]:
-                            if index == count:
-                                break
-                            else:
-                                index += 1
+                index = get_Index(current_Discount, all_Discounts)
 
                 if current_Discount == all_Discounts[index]:
                 
