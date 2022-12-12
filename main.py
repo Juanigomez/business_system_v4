@@ -124,14 +124,15 @@ def Database():
             with col1:
 
                 Name = st.text_input("Enter product name: ")
-                Stock = st.slider("Enter product stock: ")
+                Stock = int(st.slider("Enter product stock: "))
                 Supplier = st.text_input("Enter product supplier: ")
 
             with col2:
 
-                Price = st.number_input("Enter product price: ")
-                Cost = st.number_input("Enter product cost: ")
+                Price = int(st.number_input("Enter product price: ", step=100))
+                Cost = int(st.number_input("Enter product cost: ", step=100))
                 Margin = int(Price - Cost)
+                st.text("Product Margin: ")
                 st.error(Margin)
 
         with button:
