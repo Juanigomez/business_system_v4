@@ -109,6 +109,8 @@ def Database():
 
         header = st.container()
         inputs = st.container()
+        button = st.container()
+        table = st.container()
 
         with header:
 
@@ -121,11 +123,18 @@ def Database():
 
             with col1:
 
-                st.subheader("Data input")
-
                 Name = st.text_input("Enter product name: ")
                 Stock = st.slider("Enter product stock: ")
-                Price = st.number_input("Enter product price: ", step=100)
+                Supplier = st.text_input("Enter product supplier: ")
+
+            with col2:
+
+                Price = st.number_input("Enter product price: ")
+                Cost = st.number_input("Enter product cost: ")
+                Margin = int(Price - Cost)
+                st.error(Margin)
+
+        with button:
 
                 product_input_btn = st.button("Submit")
                 if product_input_btn:
@@ -142,29 +151,32 @@ def Database():
 
                             df = get_Data('products.csv') 
 
-                            df.loc[index, 'NOMBRE    '] = Name
+                            df.loc[index, '    NOMBRE    '] = Name
                             df.loc[index, 'STOCK'] = Stock
                             df.loc[index, 'PRECIO'] = Price
+                            df.loc[index, 'COSTE'] = Cost
+                            df.loc[index, 'MARGEN'] = Margin
+                            df.loc[index, '    PROVEEDOR    '] = Supplier
                             
                             df.to_csv('products.csv',index=False)
 
                         update_Product_Data()
 
                     else:
-                        new_data = [[Name, Stock, Price]]
+                        new_data = [[Name, Stock, Price, Cost, Margin, Supplier]]
                         df = pd.DataFrame(new_data)
                         df.to_csv('products.csv', mode='a', index=False, header=False)
 
                         current_Product = Name
                         st.error(f"New Product: {current_Product}")
 
-            with col2:
+        with table:
 
-                st.subheader("Product dataset")
-                st.text("Table containing product information: ")
+            st.subheader("Product dataset")
+            st.text("Table containing product information: ")
 
-                products_Table = get_Data('products.csv')
-                st.write(products_Table)
+            products_Table = get_Data('products.csv')
+            st.table(products_Table)
 
     def Discount():
 
