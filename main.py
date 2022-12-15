@@ -64,7 +64,8 @@ def Database():
                 Name = str(st.text_input("Enter customer name: "))
                 rut = st.text_input("Customer RUT: ")
                 total_Spent = int(0)
-                money_Spent = st.error(f"Money spent: $ {total_Spent}")
+                st.text("Plata gastada: ")
+                money_Spent = st.error(f"$ {total_Spent}")
 
             with col2:
 
