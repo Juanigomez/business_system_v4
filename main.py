@@ -47,7 +47,7 @@ def Database():
 
         header = st.container()
         inputs = st.container()
-        button = st.container
+        button = st.container()
         table = st.container()
 
         with header:
@@ -149,39 +149,39 @@ def Database():
 
         with button:
 
-                product_input_btn = st.button("Submit")
-                if product_input_btn:
+            product_input_btn = st.button("Submit")
+            if product_input_btn:
 
-                    products_Dataset = get_Data('products.csv')
-                    all_Products = list(products_Dataset.iloc[:,0])
-                    index = get_Index(Name, all_Products)
+                products_Dataset = get_Data('products.csv')
+                all_Products = list(products_Dataset.iloc[:,0])
+                index = get_Index(Name, all_Products)
 
-                    if Name == all_Products[index]:
-                        current_Product = Name
-                        st.error(f"Known product: {current_Product}")
+                if Name == all_Products[index]:
+                    current_Product = Name
+                    st.error(f"Known product: {current_Product}")
 
-                        def update_Product_Data():
+                    def update_Product_Data():
 
-                            df = get_Data('products.csv') 
+                        df = get_Data('products.csv') 
 
-                            df.loc[index, '    NOMBRE    '] = Name
-                            df.loc[index, 'STOCK'] = Stock
-                            df.loc[index, 'PRECIO'] = Price
-                            df.loc[index, 'COSTE'] = Cost
-                            df.loc[index, 'MARGEN'] = Margin
-                            df.loc[index, '    PROVEEDOR    '] = Supplier
-                            
-                            df.to_csv('products.csv',index=False)
+                        df.loc[index, '    NOMBRE    '] = Name
+                        df.loc[index, 'STOCK'] = Stock
+                        df.loc[index, 'PRECIO'] = Price
+                        df.loc[index, 'COSTE'] = Cost
+                        df.loc[index, 'MARGEN'] = Margin
+                        df.loc[index, '    PROVEEDOR    '] = Supplier
+                        
+                        df.to_csv('products.csv',index=False)
 
-                        update_Product_Data()
+                    update_Product_Data()
 
-                    else:
-                        new_data = [[Name, Stock, Price, Cost, Margin, Supplier]]
-                        df = pd.DataFrame(new_data)
-                        df.to_csv('products.csv', mode='a', index=False, header=False)
+                else:
+                    new_data = [[Name, Stock, Price, Cost, Margin, Supplier]]
+                    df = pd.DataFrame(new_data)
+                    df.to_csv('products.csv', mode='a', index=False, header=False)
 
-                        current_Product = Name
-                        st.error(f"New Product: {current_Product}")
+                    current_Product = Name
+                    st.error(f"New Product: {current_Product}")
 
         with table:
 
