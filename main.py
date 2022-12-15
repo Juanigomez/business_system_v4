@@ -47,6 +47,8 @@ def Database():
 
         header = st.container()
         inputs = st.container()
+        button = st.container
+        table = st.container()
 
         with header:
 
@@ -59,51 +61,61 @@ def Database():
 
             with col1:
 
-                st.subheader("Data input")
-
                 Name = str(st.text_input("Enter customer name: "))
-                Address = st.text_input("Enter customer address: ")
-                Phone_Number = st.text_input("Enter customer phone number: ")
-
-                customer_input_btn = st.button("Submit")
-                if customer_input_btn:
-
-                    customers_Dataset = get_Data('customers.csv')
-                    all_Customers = list(customers_Dataset.iloc[:,0])
-                    index = get_Index(Name, all_Customers)
-
-                    if Name == all_Customers[index]:
-
-                        current_Customer = Name
-                        st.error(f"Known customer: {current_Customer}")
-
-                        def update_Customer_Data():
-
-                            df = get_Data('customers.csv') 
-
-                            df.loc[index, 'NOMBRE   '] = Name
-                            df.loc[index, 'DIRECCION   '] = Address
-                            df.loc[index, 'CELULAR'] = Phone_Number
-                            
-                            df.to_csv('customers.csv',index=False)
-
-                        update_Customer_Data()
-
-                    else:
-                        new_data = [[Name, Address, Phone_Number]]
-                        df = pd.DataFrame(new_data)
-                        df.to_csv('customers.csv', mode='a', index=False, header=False)
-
-                        current_Customer = Name
-                        st.error(f"New customer: {current_Customer}")
+                rut = st.text_input("Customer RUT: ")
+                total_Spent = int(0)
+                money_Spent = st.error(f"Money spent: $ {total_Spent}")
 
             with col2:
 
-                st.subheader("Customer dataset")
-                st.text("Table containing customer information: ")
+                Address = st.text_input("Enter customer address: ")
+                Phone_Number = st.text_input("Enter customer phone number: ")
+                mail = st.text_input("Enter customer e-mail: ")
 
-                customers_Table = get_Data('customers.csv')
-                st.write(customers_Table)
+        with button:
+
+            customer_input_btn = st.button("Submit")
+            if customer_input_btn:
+
+                customers_Dataset = get_Data('customers.csv')
+                all_Customers = list(customers_Dataset.iloc[:,0])
+                index = get_Index(Name, all_Customers)
+
+                if Name == all_Customers[index]:
+
+                    current_Customer = Name
+                    st.error(f"Known customer: {current_Customer}")
+
+                    def update_Customer_Data():
+
+                        df = get_Data('customers.csv') 
+
+                        df.loc[index, 'NOMBRE'] = Name
+                        df.loc[index, 'RUT'] = rut
+                        df.loc[index, 'DIRECCION'] = Address
+                        df.loc[index, 'CELULAR'] = Phone_Number
+                        df.loc[index, 'MAIL'] = mail
+                        df.loc[index, 'PLATA GASTADA'] = money_Spent
+                        
+                        df.to_csv('customers.csv',index=False)
+
+                    update_Customer_Data()
+
+                else:
+                    new_data = [[Name, rut, Address, Phone_Number, mail, money_Spent]]
+                    df = pd.DataFrame(new_data)
+                    df.to_csv('customers.csv', mode='a', index=False, header=False)
+
+                    current_Customer = Name
+                    st.error(f"New customer: {current_Customer}")
+
+        with table:
+
+            st.subheader("Customer dataset")
+            st.text("Table containing customer information: ")
+
+            customers_Table = get_Data('customers.csv')
+            st.write(customers_Table)
 
     def Product():
 
