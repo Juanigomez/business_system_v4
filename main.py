@@ -43,7 +43,7 @@ def Homepage():
 
 def Database():
 
-    def Customer():
+    def Customers():
 
         header = st.container()
         inputs = st.container()
@@ -118,7 +118,7 @@ def Database():
             customers_Table = get_Data('customers.csv')
             st.write(customers_Table)
 
-    def Product():
+    def Products():
 
         header = st.container()
         inputs = st.container()
@@ -192,7 +192,7 @@ def Database():
             products_Table = get_Data('products.csv')
             st.table(products_Table)
 
-    def Discount():
+    def Discounts():
 
         header = st.container()
         inputs = st.container()
@@ -254,10 +254,94 @@ def Database():
                 discounts_Table = get_Data('discounts.csv')
                 st.write(discounts_Table)
 
+
+    def Employees():
+        
+        header = st.container()
+        inputs = st.container()
+        button = st.container()
+        table = st.container()
+
+        with header:
+
+            st.title("Employee Information")
+            st.text("Input and access employee information.")
+
+        with inputs:
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+
+                Name = st.text_input("Enter employee name: ")
+                Address = st.text_input("Enter employee address: ")
+                Phone_Number = st.text_input("Enter employee phone number: ")
+
+            with col2:
+
+                Position = st.selectbox("Enter employee charge: ", ['Salesman', 'Accountant', 'Cashier'])
+                piece_Rate = st.number_input("Enter piece rate amount: ", step=100)
+                time_Rate = st.number_input("Enter time rate amount: ", step=100)
+
+            with col3:
+
+                hours_Week = st.number_input("Enter hours worked a week: ")
+                wage = int(time_Rate * hours_Week)
+                salary = int(wage * 4)
+                st.text("Salary: ")
+                st.error(f"$ {salary}")
+
+        with button:
+
+            product_input_btn = st.button("Submit")
+            if product_input_btn:
+
+                employees_Dataset = get_Data('employees.csv')
+                all_Employees = list(employees_Dataset.iloc[:,0])
+                index = get_Index(Name, all_Employees)
+
+                if Name == all_Employees[index]:
+                    current_Employee = Name
+                    st.error(f"Known employee: {current_Employee}")
+
+                    def update_Employee_Data():
+
+                        df = get_Data('employees.csv') 
+
+                        df.loc[index, 'NOMBRE'] = Name
+                        df.loc[index, 'DIRECCION'] = Address
+                        df.loc[index, 'CELULAR'] = Phone_Number
+                        df.loc[index, 'POSICION'] = Position
+                        df.loc[index, '$/HORA'] = time_Rate
+                        df.loc[index, 'COMISION'] = piece_Rate
+                        df.loc[index, 'HORAS SEMANALES'] = hours_Week
+                        df.loc[index, 'SALARIO'] = salary
+                        
+                        df.to_csv('employees.csv',index=False)
+
+                    update_Employee_Data()
+
+                else:
+                    new_data = [[Name, Address, Phone_Number, Position, time_Rate, piece_Rate, hours_Week, salary]]
+                    df = pd.DataFrame(new_data)
+                    df.to_csv('employees.csv', mode='a', index=False, header=False)
+
+                    current_Employee = Name
+                    st.error(f"New Employee: {current_Employee}")
+
+        with table:
+
+            st.subheader("Product dataset")
+            st.text("Table containing product information: ")
+
+            products_Table = get_Data('products.csv')
+            st.table(products_Table)
+
     all_Pages = {
-    "Customer": Customer,
-    "Product": Product,
-    "Discount": Discount,
+    "Customers": Customers,
+    "Products": Products,
+    "Employees": Employees,
+    "Discounts": Discounts
 }
     st.sidebar.title("Python Website")
     st.sidebar.header("Databse structure")
