@@ -286,7 +286,11 @@ def Database():
             with col3:
 
                 hours_Week = st.number_input("Enter hours worked a week: ")
+
                 wage = int(time_Rate * hours_Week)
+                st.text("Wage: ")
+                st.error(f"$ {wage}")
+                
                 salary = int(wage * 4)
                 st.text("Salary: ")
                 st.error(f"$ {salary}")
@@ -331,11 +335,11 @@ def Database():
 
         with table:
 
-            st.subheader("Product dataset")
-            st.text("Table containing product information: ")
+            st.subheader("Employees dataset")
+            st.text("Table containing employee information: ")
 
-            products_Table = get_Data('products.csv')
-            st.table(products_Table)
+            employees_Table = get_Data('employees.csv')
+            st.table(employees_Table)
 
     all_Pages = {
     "Customers": Customers,
