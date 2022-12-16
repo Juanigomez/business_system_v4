@@ -280,12 +280,14 @@ def Database():
             with col2:
 
                 Position = st.selectbox("Enter employee charge: ", ['Salesman', 'Accountant', 'Cashier'])
-                piece_Rate = int(st.number_input("Enter piece rate amount: ", step=100))
-                time_Rate = int(st.number_input("Enter time rate amount: ", step=100))
+                piece_Rate = int(st.slider("Piece rate percenatge: ", min_value=0, max_value=100, step=1))
+                time_Rate = int(st.number_input("Enter time rate amount: ", step=1))
 
             with col3:
 
-                hours_Week = int(st.number_input("Enter hours worked a week: "))
+                hours_Week = int(st.number_input("Enter hours worked a week: ", step=1))
+
+                st.text("Wage and Salary: ")
 
                 wage = int(time_Rate * hours_Week)
                 st.error(f"Wage: $ {wage}")
