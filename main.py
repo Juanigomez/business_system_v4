@@ -333,6 +333,7 @@ def Database():
              
             st.header("Discounts Dataset")
             st.text("Table containing discount infomation:")
+            discounts_Dataset = get_Data('discounts.csv')
             st.table(discounts_Dataset)
 
     all_Pages = {
