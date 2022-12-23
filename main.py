@@ -442,16 +442,15 @@ def Purchase():
             all_Discounts = list(discounts_Dataset.iloc[:,0])
             current_Discount = str(st.selectbox("Select discount: ", all_Discounts))
 
-            discount_Index = get_Data(current_Discount, all_Discounts)
+            discount_Index = get_Index(current_Discount, all_Discounts)
 
             if current_Product == None:
                 st.text("")
             else:
-                if discount_Index == 0:
+                if current_Discount == "Ninguno":
                     st.error("No discount")
                     st.error(f" --> $ {total_Price}")
                 else:
-
                     if current_Discount == all_Discounts[discount_Index]:
                         
                         def get_Percentage():
