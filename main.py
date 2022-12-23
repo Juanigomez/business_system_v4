@@ -78,9 +78,7 @@ def Database():
             customer_input_btn = st.button("Submit")
             if customer_input_btn:
                 
-                global customers_Dataset
                 customers_Dataset = get_Data('customers.csv')
-
                 all_Customers = list(customers_Dataset.iloc[:,0])
                 index = get_Index(Name, all_Customers)
 
@@ -155,9 +153,7 @@ def Database():
             product_input_btn = st.button("Submit")
             if product_input_btn:
 
-                global products_Dataset
                 products_Dataset = get_Data('products.csv')
-
                 all_Products = list(products_Dataset.iloc[:,0])
                 index = get_Index(Name, all_Products)
 
@@ -241,9 +237,7 @@ def Database():
                 product_input_btn = st.button("Submit")
                 if product_input_btn:
 
-                    global employees_Dataset
                     employees_Dataset = get_Data('employees.csv')
-
                     all_Employees = list(employees_Dataset.iloc[:,0])
                     index = get_Index(Name, all_Employees)
 
@@ -306,9 +300,7 @@ def Database():
             discount_input_btn = st.button("Submit")
             if discount_input_btn:
 
-                global discounts_Dataset
                 discounts_Dataset = pd.read_csv('discounts.csv')
-
                 all_Discounts = list(discounts_Dataset.iloc[:,0])
                 index = get_Index(Name, all_Discounts)
 
@@ -378,6 +370,7 @@ def Purchase():
             st.subheader("Customer Info.")
             current_Customer = st.text_input("Customer name: ")
 
+            customers_Dataset = pd.read_csv('customers.csv')
             all_Customers = list(customers_Dataset.iloc[:,0])
             customer_Index = get_Index(current_Customer, all_Customers)
 
@@ -407,6 +400,7 @@ def Purchase():
             current_Product = st.text_input("Product name: ")
             current_Amount = st.slider("Amount", 1, 50)
 
+            products_Dataset = pd.read_csv('products.csv')
             all_Products = list(products_Dataset.iloc[:,0])
             product_Index = get_Index(current_Product, all_Products)
 
@@ -444,6 +438,7 @@ def Purchase():
             st.subheader("Payment Info.")
 
             method = st.text_input("Payment method: ")
+            discounts_Dataset = pd.read_csv('discounts.csv')
             all_Discounts = list(discounts_Dataset.iloc[:,0])
             current_Discount = str(st.selectbox("Select discount: ", all_Discounts))
 
