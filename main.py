@@ -35,6 +35,7 @@ def get_Index(value, all_Values):
 
     return index
 
+
 def Homepage():
 
     st.title("Business System: ")
@@ -351,130 +352,151 @@ def Database():
 def Purchase():
 
     header = st.container()
-    employee_Input = st.container()
+    id_inputs = st.container()
     inputs = st.container()
+    button = st.container()
+    output = st.container()
 
     with header:
 
         st.title("Purchase Input")
 
-    with employee_Input:
+    with id_inputs:
 
-        st.text_input("Enter employee name: ")
+        current_Employee = st.text_input("Employee Name: ")
+        current_Customer = st.text_input("Customer Name: ")
+
+        def get_Customer_Data():
+
+                customers_Dataset = pd.read_csv('customers.csv')
+                all_Customers = list(customers_Dataset.iloc[:,0])
+                customer_Index = get_Index(current_Customer, all_Customers)
+
+                if current_Customer == all_Customers[customer_Index]:
+  
+                    # GET RUT:
+                    all_RUTs = list(customers_Dataset.iloc[:,1])
+                    global current_RUT
+                    current_RUT = all_RUTs[customer_Index]
+
+                    # GET ADDRESS:
+                    all_Addresses = list(customers_Dataset.iloc[:,2])
+                    current_Address = all_Addresses[customer_Index]
+
+                    # GET PHONE NUMBER:
+                    all_Phone_Numbers = list(customers_Dataset.iloc[:,3])
+                    current_Phone_Number = all_Phone_Numbers[customer_Index]
+
+                else: st.text("")
 
     with inputs:
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
 
         with col1:
 
-            st.subheader("Customer Info.")
-            current_Customer = st.text_input("Customer name: ")
+            st.subheader("Product Info. ")
+            current_Product = st.text_input("Product Name: ")
+            current_Amount = st.slider("Amount", 1, 100)
 
-            customers_Dataset = pd.read_csv('customers.csv')
-            all_Customers = list(customers_Dataset.iloc[:,0])
-            customer_Index = get_Index(current_Customer, all_Customers)
+            def get_Product_Data():
 
-            if current_Customer == all_Customers[customer_Index]:
+                products_Dataset = pd.read_csv('products.csv')
+                all_Products = list(products_Dataset.iloc[:,0])
+                product_Index = get_Index(current_Product, all_Products)
 
-                def get_Address():
+                if current_Product == all_Products[product_Index]:
 
-                    all_Addresses = list(customers_Dataset.iloc[:,2])
-                    current_Address = all_Addresses[customer_Index]
-                    st.error(current_Address)
+                        # GET PRICE:
+                        all_Prices = list(products_Dataset.iloc[:,2])
+                        global current_Price
+                        current_Price = int(all_Prices[product_Index])
 
-                get_Address()
+                        # GET STOCK:
+                        all_Stocks = list(products_Dataset.iloc[:,1])
+                        global current_Stock
+                        current_Stock = all_Stocks[product_Index]
 
-                def get_Phone_Number():
+                        # CALCULATE TOTAL PRICE:
+                        global total_Price
+                        total_Price = int(current_Price * current_Amount)
 
-                    all_Phone_Numbers = list(customers_Dataset.iloc[:,3])
-                    current_Phone_Number = all_Phone_Numbers[customer_Index]
-                    st.error(f"Phone Number: {current_Phone_Number}")
-
-                get_Phone_Number()
-
-            else: st.text("")
+                else: st.text("")
 
         with col2:
 
-            st.subheader("Product Info.")
-            current_Product = st.text_input("Product name: ")
-            current_Amount = st.slider("Amount", 1, 50)
+            st.subheader("Payment Info. ")
+            current_Method = st.selectbox("Select Method: ", ['efectivo, debito, credito'])
+            current_Cuotas = st.select_slider("Cuotas", [0, 2, 3, 4])
+            
+            discounts_Dataset = get_Data('discounts.csv')
+            all_Discounts = discounts_Dataset.iloc[:,0]
 
-            products_Dataset = pd.read_csv('products.csv')
-            all_Products = list(products_Dataset.iloc[:,0])
-            product_Index = get_Index(current_Product, all_Products)
+            current_Discount = st.selectbox("Select Discount: ", all_Discounts)
 
-            if current_Product == all_Products[product_Index]:
+            def get_Discount_Data():
 
-                def get_Price():
+                discount_Index = get_Index(current_Discount, all_Discounts)
 
-                    all_Prices = list(products_Dataset.iloc[:,2])
-                    global current_Price
-                    current_Price = int(all_Prices[product_Index])
-                    st.text(f"Price: {current_Price}")
-
-                get_Price()
-
-                def get_Stock():
-
-                    all_Stocks = list(products_Dataset.iloc[:,1])
-                    global current_Stock
-                    current_Stock = all_Stocks[product_Index]
-
-                get_Stock()
-
-                def calculate_Price():
-
-                    global total_Price
-                    total_Price = int(current_Price * current_Amount)
-                    st.text(f"Total: {total_Price}")
-
-                calculate_Price()
-
-            else: st.text("")
-
-        with col3:
-
-            st.subheader("Payment Info.")
-
-            method = st.text_input("Payment method: ")
-            discounts_Dataset = pd.read_csv('discounts.csv')
-            all_Discounts = list(discounts_Dataset.iloc[:,0])
-            current_Discount = str(st.selectbox("Select discount: ", all_Discounts))
-
-            discount_Index = get_Index(current_Discount, all_Discounts)
-
-            if current_Product == None:
-                st.text("")
-            else:
-                if current_Discount == "Ninguno":
-                    st.error("No discount")
-                    st.error(f" --> $ {total_Price}")
-                else:
-                    if current_Discount == all_Discounts[discount_Index]:
+                if current_Discount == all_Discounts[discount_Index]:
                         
-                        def get_Percentage():
+                    # GET PERCENTAGE:
+                    all_Percentages = list(discounts_Dataset.iloc[:,1])
+                    global current_Percentage
+                    current_Percentage = all_Percentages[discount_Index]
 
-                            all_Percentages = list(discounts_Dataset.iloc[:,1])
-                            global current_Percentage
-                            current_Percentage = all_Percentages[discount_Index]
+                    # CALCULATE DISCOUNT PRICE:
+                    global sub
+                    sub = int((current_Percentage * total_Price)/ 100)
+                    global discount_Price
+                    discount_Price = int(total_Price - sub)
 
-                        get_Percentage()
+                else: st.text("")
 
-                        def show_Discount_Price():
+    with button:
 
-                            sub = int((current_Percentage * total_Price)/ 100)
+        run_Btn = st.button("Submit")
+        if run_Btn:
 
-                            global discount_Price
-                            discount_Price = int(total_Price - sub)
+            get_Customer_Data()  
 
-                            st.error(f"Discount: {current_Percentage}: {sub}")
-                            st.error(f"Discount price: {discount_Price}")
+            get_Product_Data()
 
-                        show_Discount_Price()  
+            get_Discount_Data()
 
-                    else: st.text("")
+    with output:
+
+        id_Outputs = st.container()
+        purchase_Return = st.container()
+        button = st.container()
+
+        with id_Outputs:
+
+            sales, purchases = "-"
+            st.error(f"Employee name: {current_Employee}, number of sales: {sales}")
+            st.error(f"Customer: {current_Customer}, RUT: {current_RUT}, purchases: {purchases}")
+
+        with purchase_Return:
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+
+                st.subheader("Product Info. ")
+                st.error(f"Product: {current_Product}")
+                st.error(f"Amount: {current_Amount}")
+                st.error(f"Precio: {current_Price}")
+                st.text("")
+                st.success(f"TOTAL: {total_Price}")
+
+            with col2:
+
+                st.subheader("Payment Info.")
+                st.error(f"Method: {current_Method}")
+                st.error(f"Cuotas: {current_Cuotas}")
+                st.error(f"Discount: {current_Percentage}, ({sub})")
+                st.text("")
+                st.success(f"TOTAL(%): {discount_Price}")
 
 def Sales():
 
@@ -490,6 +512,7 @@ def Sales():
 
         sales_Dataset = get_Data('sales.csv')
         st.table(sales_Dataset)
+
 
 if navBar == "Homepage":
     Homepage()
