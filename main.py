@@ -137,7 +137,7 @@ def Database():
 
             with col1:
 
-                Name = st.text_input("Enter product name: ")
+                Name = str(st.text_input("Enter product name: "))
                 Stock = int(st.slider("Enter product stock: "))
                 Supplier = st.text_input("Enter product supplier: ")
 
@@ -166,12 +166,12 @@ def Database():
 
                         df = get_Data('products.csv') 
 
-                        df.loc[index, '    NOMBRE    '] = Name
+                        df.loc[index, 'NOMBRE'] = Name
                         df.loc[index, 'STOCK'] = Stock
                         df.loc[index, 'PRECIO'] = Price
                         df.loc[index, 'COSTE'] = Cost
                         df.loc[index, 'MARGEN'] = Margin
-                        df.loc[index, '    PROVEEDOR    '] = Supplier
+                        df.loc[index, 'PROVEEDOR'] = Supplier
                         
                         df.to_csv('products.csv',index=False)
 
@@ -314,9 +314,9 @@ def Database():
 
                         df = get_Data('discounts.csv') 
 
-                        df.loc[index, 'NOMBRE   '] = Name
+                        df.loc[index, 'NOMBRE'] = Name
                         df.loc[index, 'DESCUENTO'] = Percentage
-                        df.loc[index, 'MOTIVO          '] = Reason
+                        df.loc[index, 'MOTIVO'] = Reason
                         
                         df.to_csv('discounts.csv',index=False)
 
@@ -472,8 +472,7 @@ def Purchase():
 
         with id_Outputs:
 
-            sales = "-"
-            purchases = "-"
+            sales, purchases = "-"
             st.error(f"Employee name: {current_Employee}, number of sales: {sales}")
             st.error(f"Customer: {current_Customer}, RUT: {current_RUT}, purchases: {purchases}")
 
