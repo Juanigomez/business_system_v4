@@ -472,7 +472,8 @@ def Purchase():
 
         with id_Outputs:
 
-            sales, purchases = "-"
+            sales = "-"
+            purchases = "-"
             st.error(f"Employee name: {current_Employee}, number of sales: {sales}")
             st.error(f"Customer: {current_Customer}, RUT: {current_RUT}, purchases: {purchases}")
 
