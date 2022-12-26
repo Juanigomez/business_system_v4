@@ -458,11 +458,15 @@ def Purchase():
         run_Btn = st.button("Submit")
         if run_Btn:
 
+            allow_Output = True
+
             get_Customer_Data()  
 
             get_Product_Data()
 
             get_Discount_Data()
+
+        else: allow_Output = False
 
     with output:
 
@@ -470,34 +474,36 @@ def Purchase():
         purchase_Return = st.container()
         button = st.container()
 
-        with id_Outputs:
+        if allow_Output == True:
 
-            sales = "-"
-            purchases = "-"
-            st.error(f"Employee name: {current_Employee}, number of sales: {sales}")
-            st.error(f"Customer: {current_Customer}, RUT: {current_RUT}, purchases: {purchases}")
+            with id_Outputs:
 
-        with purchase_Return:
+                sales = "-"
+                purchases = "-"
+                st.error(f"Employee name: {current_Employee}, number of sales: {sales}")
+                st.error(f"Customer: {current_Customer}, RUT: {current_RUT}, purchases: {purchases}")
 
-            col1, col2 = st.columns(2)
+            with purchase_Return:
 
-            with col1:
+                col1, col2 = st.columns(2)
 
-                st.subheader("Product Info. ")
-                st.error(f"Product: {current_Product}")
-                st.error(f"Amount: {current_Amount}")
-                st.error(f"Precio: {current_Price}")
-                st.text("")
-                st.success(f"TOTAL: {total_Price}")
+                with col1:
 
-            with col2:
+                    st.subheader("Product Info. ")
+                    st.error(f"Product: {current_Product}")
+                    st.error(f"Amount: {current_Amount}")
+                    st.error(f"Precio: {current_Price}")
+                    st.text("")
+                    st.success(f"TOTAL: {total_Price}")
 
-                st.subheader("Payment Info.")
-                st.error(f"Method: {current_Method}")
-                st.error(f"Cuotas: {current_Cuotas}")
-                st.error(f"Discount: {current_Percentage}, ({sub})")
-                st.text("")
-                st.success(f"TOTAL(%): {discount_Price}")
+                with col2:
+
+                    st.subheader("Payment Info.")
+                    st.error(f"Method: {current_Method}")
+                    st.error(f"Cuotas: {current_Cuotas}")
+                    st.error(f"Discount: {current_Percentage}, ({sub})")
+                    st.text("")
+                    st.success(f"TOTAL(%): {discount_Price}")
 
 def Sales():
 
